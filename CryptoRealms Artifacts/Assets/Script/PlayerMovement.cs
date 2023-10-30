@@ -8,6 +8,7 @@ public class PlayerMovement : MonoBehaviour
     public float rotateSpeed = 100.0f;
     private Rigidbody rb;
     private Animator anim;
+    private bool  canJump = true;
 
 
     // Start is called before the first frame update
@@ -36,10 +37,19 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update() 
     {
-        if (Input.GetButtonDown("Jump"))
+        if (Input.GetButtonDown("Jump") && canJump == true)
         {
+            canJump =false;
             rb.AddForce(Vector3.up * 1200 * Time.deltaTime, ForceMode.VelocityChange);
+            StartCoroutine(JumpAgain());
         }
         
     }
+
+    IEnumerator JumpAgain()
+    {
+        yield return new WaitForSeconds(1);
+        canJump = true;
+    }
+
 }
